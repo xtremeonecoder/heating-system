@@ -1,0 +1,35 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+
+$viewer = $this->viewer();
+$menu = array('menu' => "core_main_{$viewer->getUserType()}_ticket_top");
+echo $this->topMenuWidget(array('headtitle' => 'Admin Panel', 'menu' => $menu));
+?>
+
+<div>
+    <div id="formholder">
+        <h4>
+            <i class="icon-home" style="vertical-align:middle; margin-top: -2px;"></i>
+            <?php echo $this->translate('Admin Panel [Change Support Ticket Priority]'); ?>
+        </h4>
+        <br />
+        <?php echo $this->form->render($this); ?>
+        <div style="clear: both;"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('#submit').prepend("<i class='icon-ok-sign icon-white'></i> ");
+</script>

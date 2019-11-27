@@ -1,0 +1,42 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+
+$identity = $this->identity;
+$navigation = $this->navigation;
+?>
+
+<div class="well sidebar-nav">
+    <ul class="nav nav-list cusnav">
+        <li class="nav-header">
+            <i class="icon-th-list"></i>
+            <?php echo $this->translate('Main Menu'); ?>
+        </li>
+        <?php foreach($navigation as $menu){
+            $params = $menu->getParams();
+            $active = in_array($identity, $menu->getPage()) ? true : false;
+            ?>
+        <li<?php if($active){echo " class='active'";} ?>>
+            <a href="<?php echo $this->url($params['params'], $params['route'], true); ?>">
+                <?php
+                $menuIcon = $menu->getIcon();
+                if(!empty($menuIcon)){ ?>
+                    <i class="<?php echo $menuIcon; ?>"></i>
+                <?php } ?>
+                <?php echo $this->translate($menu->getLabel()); ?>
+            </a>
+        </li>
+        <?php } ?>
+    </ul>
+</div>

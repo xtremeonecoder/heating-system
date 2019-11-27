@@ -1,0 +1,64 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+
+// tinymce editor
+$this->headScript()
+          ->appendFile("{$this->baseUrl()}/public/externals/tinymce/tinymce.min.js");
+?>
+
+<script type="text/javascript">
+tinymce.init({
+    selector: "textarea.span5",
+    theme: "modern",
+    //width: 300,
+    height: 300,
+    plugins: [
+         "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+         "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+         "save table contextmenu directionality emoticons template paste textcolor"
+   ],
+   content_css: "css/content.css",
+   toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons", 
+   style_formats: [
+        {title: 'Bold text', inline: 'b'},
+        {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+        {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+        {title: 'Example 1', inline: 'span', classes: 'example1'},
+        {title: 'Example 2', inline: 'span', classes: 'example2'},
+        {title: 'Table styles'},
+        {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+    ]
+ });
+</script>
+
+<?php 
+     $menu = array('menu' => 'core_main_user');
+     echo $this->topMenuWidget(array('headtitle' => 'User Panel', 'menu' => $menu));
+?>
+
+<div>
+    <div id="formholder">
+        <h4>
+            <i class="icon-home" style="vertical-align:middle; margin-top: -2px;"></i>
+            <?php echo $this->translate('User Panel [Create Support Ticket]'); ?>
+        </h4>
+        <?php echo $this->form->render($this); ?>
+        <div style="clear: both;"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('#submit').prepend("<i class='icon-ok-sign icon-white'></i> ");
+</script>

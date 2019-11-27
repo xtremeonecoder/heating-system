@@ -1,0 +1,38 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+?>
+
+<div>
+    <div id="formholder">
+        <h4>
+            <i class="icon-user" style="vertical-align:middle; margin-top: -2px;"></i>
+            <?php echo $this->translate('Reset Account Password'); ?>
+        </h4>
+        <?php 
+        if(!$this->success){
+            echo $this->form->render($this); 
+        }else{
+        ?>
+        <h5>
+            <?php echo $this->translate('You have successfully reset your account password!%sWe have sent a confirmation email with new login details. %sclick here%s to login your account', "<br />", "<a href='{$this->url(array(), 'member_login', true)}'>", "</a>"); ?>
+        </h5>
+        <?php } ?>
+        <div style="clear: both;"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('#submit').prepend("<i class='icon-ok-sign icon-white'></i> ");
+</script>        

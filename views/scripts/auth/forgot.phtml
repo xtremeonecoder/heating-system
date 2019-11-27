@@ -1,0 +1,53 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+?>
+
+<br /><br />
+
+<?php if(!$this->success){ ?>
+<div>
+    <div id="formholder">
+        <h4>
+            <i class="icon-user" style="vertical-align:middle; margin-top: -2px;"></i>
+            <?php echo $this->translate('Forgot Password?'); ?>
+        </h4>
+        <?php echo $this->form->render($this); ?>
+        <div style="clear: both;"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('#submit').prepend("<i class='icon-ok-sign icon-white'></i> ");
+</script>
+<?php }elseif($this->success){ ?>
+<div>
+    <div id="formholder">
+        <h4>
+            <i class="icon-user" style="vertical-align:middle; margin-top: -2px;"></i>
+            <?php echo $this->translate('Forgot Password?'); ?>
+        </h4>
+        <h5>
+            <?php 
+                echo $this->translate('                    
+                    We have sent a reset password confirmation email with reset-password link, please
+                    check your email Inbox! If you do not get the email in your Inbox, please check
+                    the Spam or Junk folder.
+                '); 
+            ?>
+        </h5>
+        <div style="clear: both;"></div>
+    </div>
+</div>
+<?php } ?>

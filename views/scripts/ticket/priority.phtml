@@ -1,0 +1,35 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+
+$menu = array('menu' => 'core_main_user');
+$notShow = array('core_main_profile', 'core_main_settings', 'core_main_user_task_list');
+echo $this->topMenuWidget(array('headtitle' => 'User Panel', 'menu' => $menu, 'notshow' => $notShow));
+?>
+
+<div>
+    <div id="formholder">
+        <h4>
+            <i class="icon-home" style="vertical-align:middle; margin-top: -2px;"></i>
+            <?php echo $this->translate('User Panel [Change Support Ticket Priority]'); ?>
+        </h4>
+        <br />
+        <?php echo $this->form->render($this); ?>
+        <div style="clear: both;"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('#submit').prepend("<i class='icon-ok-sign icon-white'></i> ");
+</script>

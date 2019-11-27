@@ -1,0 +1,31 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+?>
+
+<div class="signup-step">
+    <h4>
+        <i class="icon-ok-circle" style="vertical-align:middle; margin-top: -2px;"></i>
+        <?php echo $this->translate('Member Registration'); ?>
+    </h4>
+    <div style="clear: both;"></div>
+    <?php echo $this->registrationProgressWidget('captcha'); ?>
+    <div style="clear: both;"></div>
+    <br />
+    <?php echo $this->form->render($this); ?>
+</div>
+
+<script type="text/javascript">
+$('#submit').prepend("<i class='icon-ok-sign icon-white'></i> ");
+</script>

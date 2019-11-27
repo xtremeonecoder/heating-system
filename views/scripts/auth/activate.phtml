@@ -1,0 +1,28 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+?>
+
+<div>
+    <div id="formholder">
+        <h4>
+            <i class="icon-user" style="vertical-align:middle; margin-top: -2px;"></i>
+            <?php echo $this->translate('Activation Successful'); ?>
+        </h4>
+        <h5>
+            <?php echo $this->translate('You have successfully activated your account!%sWe have sent an activation confirmation email. %sclick here%s to login your account', "<br />", "<a href='{$this->url(array(), 'member_login', true)}'>", "</a>"); ?>
+        </h5>
+        <div style="clear: both;"></div>
+    </div>
+</div>

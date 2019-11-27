@@ -1,0 +1,54 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+
+$viewer = $this->viewer();
+$invoice = $this->invoice;
+$ticket = $invoice->getTicket();
+$menu = array('menu' => 'core_main_user');
+$notShow = array('core_main_profile', 'core_main_settings', 'core_main_user_task_list');
+echo $this->topMenuWidget(array('headtitle' => 'User Panel', 'menu' => $menu, 'notshow' => $notShow));
+?>
+
+<div style="clear: both;"></div>
+
+<div class="hero-unit" style="width: 96%; padding: 10px 20px; margin-bottom: 0px;">
+    <h4>
+        <i class="icon-home" style="vertical-align:middle; margin-top: -2px;"></i>
+        <?php echo $this->translate('User Panel [Payment Invoice Details]'); ?>
+    </h4>
+    <div style="clear: both;"></div>
+    <div class="btn-toolbar custresclass" style="float: right;">
+        <div class="btn-group">
+            <?php if($ticket->canMakePayment()): ?>
+            <a href="<?php echo $this->url(array('action' => 'payment', 'id' => $invoice->getIdentity()), 'user_invoices', true); ?>" class="btn">
+                <i class="icon-briefcase"></i>
+                <?php echo $this->translate('Make Payment'); ?>
+            </a>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div style="clear: both;"></div>
+    <br />
+    <p style="color: #000;"><strong>Invoice Title:</strong> <?php echo $invoice->getTitle(); ?></p>
+    <p style="color: #000;"><strong>Amount Payable:</strong> <?php echo $invoice->getAmount(); ?></p>    
+    <p style="color: #000;"><strong>Invoice Status:</strong> <?php echo $invoice->getStatusWord(); ?></p>
+    <p style="color: #000;"><strong>Invoice Description:</strong> <?php echo $invoice->getDescription(); ?></p>
+    <br />
+    <p style="color: #000;">
+        <strong>Ticket Title:</strong>
+        <a href="<?php echo $this->url(array('action' => 'details', 'id' => $ticket->getIdentity()), 'user_tickets', true); ?>"><?php echo $ticket->getTitle(); ?></a>
+    </p>
+    <p style="color: #000;"><strong>Ticket Description:</strong> <?php echo $ticket->getDescription(); ?></p>
+</div>

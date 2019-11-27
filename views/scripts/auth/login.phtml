@@ -1,0 +1,43 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+?>
+
+<br /><br />
+<div>
+    <div id="formholder">
+        <h4>
+            <i class="icon-user" style="vertical-align:middle; margin-top: -2px;"></i>
+            <?php echo $this->translate('Member Login'); ?>
+        </h4>
+        <?php echo $this->form->render($this); ?>
+        <div style="clear: both;"></div>
+        <ul style="margin-left: 12px;">
+            <li>
+                <a href="<?php echo $this->url(array(), 'forgot_password', true); ?>">
+                    <?php echo $this->translate('Forgot Password?'); ?>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url(array(), 'member_signup', true); ?>">
+                    <?php echo $this->translate('Not Registered Yet?'); ?>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('#submit').prepend("<i class='icon-ok-sign icon-white'></i> ");
+</script>

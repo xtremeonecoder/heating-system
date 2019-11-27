@@ -1,0 +1,121 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+
+$params = $this->params;
+$identity = $this->identity;
+$navigation = $this->navigation;
+$headline = !empty($params['headtitle'])
+                    ? $params['headtitle'] : 'Search';
+?>
+
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".navtopmenu">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="javascript:void(0)">
+                <?php echo $this->translate($headline); ?>
+            </a>
+            <div class="nav-collapse collapse navtopmenu">
+                <ul class="nav">
+                <?php foreach($navigation as $menu){
+                    $params = $menu->getParams();
+                    $subMenus = $menu->getSubMenu();
+                    $active = in_array($identity, $menu->getPage()) ? true : false;
+                    ?>
+                    <?php if($menu->hasSubMenu() AND count($subMenus)>0){ ?>
+                    <li class="dropdown <?php if($active){echo "active";} ?>">
+                        <a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">
+                            <?php
+                            $menuIcon = $menu->getIcon();
+                            if(!empty($menuIcon)){ ?>
+                                <i class="<?php echo $menuIcon; ?>"></i>
+                            <?php } ?>
+                            <?php echo $this->translate($menu->getLabel()); ?>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                        <?php foreach($subMenus as $subMenu){
+                            $params = $subMenu->getParams();
+                            $subSubMenus = $subMenu->getSubMenu();
+                            $active = in_array($identity, $subMenu->getPage()) ? true : false;
+                            ?>
+                            <?php if($subMenu->hasSubMenu() AND count($subSubMenus)>0){ ?>
+                            <li class="dropdown-submenu <?php if($active){echo "active";} ?>">
+                                <a href="javascript:void(0)" tabindex="-1">
+                                    <?php
+                                    $menuIcon = $subMenu->getIcon();
+                                    if(!empty($menuIcon)){ ?>
+                                        <i class="<?php echo $menuIcon; ?>"></i>
+                                    <?php } ?>
+                                    <?php echo $this->translate($subMenu->getLabel()); ?>
+                                </a>
+                                <ul class="dropdown-menu">
+                                <?php foreach($subSubMenus as $subSubMenu){
+                                    $params = $subSubMenu->getParams();
+                                    $active = in_array($identity, $subSubMenu->getPage()) ? true : false;
+                                    ?>
+                                    <li<?php if($active){echo " class='active'";} ?>>
+                                        <?php $linkUrl = (count($params)>0) ? $this->url($params['params'], $params['route'], true) : 'javascript:void(0)'; ?>
+                                        <a href="<?php echo $linkUrl; ?>" tabindex="-1">
+                                            <?php
+                                            $menuIcon = $subSubMenu->getIcon();
+                                            if(!empty($menuIcon)){ ?>
+                                                <i class="<?php echo $menuIcon; ?>"></i>
+                                            <?php } ?>
+                                            <?php echo $this->translate($subSubMenu->getLabel()); ?>
+                                        </a>
+                                    </li>
+                                    <?php } ?>
+                                </ul>
+                            </li>
+                            <?php }else{ ?>
+                            <li<?php if($active){echo " class='active'";} ?>>
+                                <?php $linkUrl = (count($params)>0) ? $this->url($params['params'], $params['route'], true) : 'javascript:void(0)'; ?>
+                                <a href="<?php echo $linkUrl; ?>">
+                                    <?php
+                                    $menuIcon = $subMenu->getIcon();
+                                    if(!empty($menuIcon)){ ?>
+                                        <i class="<?php echo $menuIcon; ?>"></i>
+                                    <?php } ?>
+                                    <?php echo $this->translate($subMenu->getLabel()); ?>
+                                </a>
+                            </li>
+                            <?php } ?>
+                        <?php } ?>
+                        </ul>
+                    </li>
+                    <?php }else{ ?>
+                    <li<?php if($active){echo " class='active'";} ?>>
+                        <?php $linkUrl = (count($params)>0) ? $this->url($params['params'], $params['route'], true) : 'javascript:void(0)'; ?>
+                        <a href="<?php echo $linkUrl; ?>">
+                            <?php
+                            $menuIcon = $menu->getIcon();
+                            if(!empty($menuIcon)){ ?>
+                                <i class="<?php echo $menuIcon; ?>"></i>
+                            <?php } ?>
+                            <?php echo $this->translate($menu->getLabel()); ?>
+                        </a>
+                    </li>
+                    <?php } ?>
+                <?php } ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

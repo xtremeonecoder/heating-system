@@ -1,0 +1,26 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+
+//$notShow = array('core_main_profile');
+$menu = array('menu' => 'core_main_settings_top');
+echo $this->topMenuWidget(array('headtitle' => 'User Panel', 'menu' => $menu));
+?>
+
+<div class="hero-unit" style="padding: 10px 15px; margin-bottom: 0px; width: 97%; min-height: 400px;">
+    <h4>
+         <i class="icon-home" style="vertical-align:middle; margin-top: -2px;"></i>
+         <?php echo $this->translate('User Panel [Account Settings]'); ?>
+    </h4>
+</div>

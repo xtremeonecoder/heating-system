@@ -1,0 +1,32 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+
+$viewer = $this->viewer();
+$menu = array('menu' => 'core_main_user');
+$notShow = array('core_main_profile', 'core_main_settings', 'core_main_user_task_list');
+echo $this->topMenuWidget(array('headtitle' => 'User Panel', 'menu' => $menu, 'notshow' => $notShow));
+?>
+
+<div class="hero-unit" style="padding: 100px 60px; margin-bottom: 0px;">
+    <h1 style="text-align: center;">
+        [Member Panel]
+        <br />
+        Web Application
+        <br />
+        for
+        <br />
+        Heating System!
+    </h1>
+</div>

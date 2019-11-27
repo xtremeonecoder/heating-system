@@ -1,0 +1,45 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Heating Support System</title>
+    </head>
+    <body>
+        <h4>An error occurred</h4>
+        <h5><?php echo $this->message ?></h5>
+
+        <?php if (isset($this->exception)): ?>
+
+            <h4>Exception information:</h4>
+            <p>
+                <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+            </p>
+
+            <h4>Stack trace:</h4>
+            <pre><?php echo $this->exception->getTraceAsString() ?>
+            </pre>
+
+            <h4>Request Parameters:</h4>
+            <pre><?php echo $this->escape(var_export($this->request->getParams(), true)) ?>
+            </pre>
+
+        <?php endif ?>
+
+    </body>
+</html>

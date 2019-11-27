@@ -1,0 +1,189 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+
+$ticket = $this->ticket;
+$viewer = $this->viewer();
+$menu = array('menu' => "core_main_{$viewer->getUserType()}_ticket_top");
+echo $this->topMenuWidget(array('headtitle' => 'Admin Panel', 'menu' => $menu));
+?>
+
+<div style="clear: both;"></div>
+
+<div class="hero-unit" style="width: 96%; padding: 10px 20px; margin-bottom: 0px;">
+    <h4>
+        <i class="icon-home" style="vertical-align:middle; margin-top: -2px;"></i>
+        <?php echo $this->translate('Admin Panel [Support Ticket Details]'); ?>
+    </h4>
+    <div style="clear: both;"></div>
+    <div class="btn-toolbar custresclass" style="float: right;">
+        <div class="btn-group">
+            <?php if(!$ticket->user_delete): ?>
+              <?php if(!$ticket->isScheduled() && $ticket->status != 3): ?>
+                <a href="<?php echo $this->url(array('action' => 'create', 'id' => $ticket->getIdentity()), 'admin_tasks', true); ?>" class="btn">
+                    <i class="icon-edit"></i>
+                    <?php echo $this->translate('Allocate Task'); ?>
+                </a>
+              <?php endif; ?>
+              <?php if(!$ticket->isScheduled()): ?>
+                <a href="javascript:void(0)" onclick="javascript:closeThis(<?php echo $ticket->getIdentity(); ?>)" class="btn">
+                    <i class="icon-off"></i>
+                    <?php echo $this->translate('Close Ticket'); ?>
+                </a>
+                <a href="javascript:void(0)" onclick="javascript:deleteThis(<?php echo $ticket->getIdentity(); ?>)" class="btn">
+                    <i class="icon-remove"></i>
+                    <?php echo $this->translate('Delete Ticket'); ?>
+                </a>
+                <a href="javascript:void(0)" onclick="javascript:reopenThis(<?php echo $ticket->getIdentity(); ?>)" class="btn">
+                    <i class="icon-refresh"></i>
+                    <?php echo $this->translate('Reopen Ticket'); ?>
+                </a>
+              <?php else: ?>
+                <?php if(!$ticket->isResolved()): ?>
+                <a href="javascript:void(0)" onclick="javascript:setTicketResolved(<?php echo $ticket->getIdentity(); ?>)" class="btn">
+                    <i class="icon-thumbs-up"></i>
+                    <?php echo $this->translate('Set Resolved'); ?>
+                </a>
+                <?php endif; ?>
+                <?php if($ticket->canCreateInvoice()): ?>
+                <a href="<?php echo $this->url(array('action' => 'create', 'id' => $ticket->getIdentity()), 'admin_invoices', true); ?>" class="btn">
+                    <i class="icon-list-alt"></i>
+                    <?php echo $this->translate('Create Invoice'); ?>
+                </a>
+                <?php endif; ?>
+                <?php if($ticket->isScheduled()): ?>
+                <?php $schedule = $ticket->getSchedule(); ?>
+                <?php if(!$ticket->isResolved()): ?>
+                <a href="<?php echo $this->url(array('action' => 'edit', 'id' => $schedule->getIdentity()), 'admin_tasks', true); ?>" class="btn">
+                    <i class="icon-edit"></i>
+                    <?php echo $this->translate('Edit Schedule'); ?>
+                </a>
+                <?php else: ?>
+                <a href="javascript:void(0)" onclick="javascript:reopenThis(<?php echo $ticket->getIdentity(); ?>)" class="btn">
+                    <i class="icon-refresh"></i>
+                    <?php echo $this->translate('Reopen Ticket'); ?>
+                </a>
+                <?php endif; ?>
+                <a href="javascript:void(0)" onclick="javascript:closeThisSchedule(<?php echo $schedule->getIdentity(); ?>)" class="btn">
+                    <i class="icon-off"></i>
+                    <?php echo $this->translate('Close Schedule'); ?>
+                </a>
+                <a href="javascript:void(0)" onclick="javascript:deleteThisSchedule(<?php echo $schedule->getIdentity(); ?>)" class="btn">
+                    <i class="icon-remove"></i>
+                    <?php echo $this->translate('Delete Schedule'); ?>
+                </a>                                 
+                <?php endif; ?>
+              <?php endif; ?>
+            <?php else: ?>
+            <a href="javascript:void(0)" onclick="javascript:restoreThis(<?php echo $ticket->getIdentity(); ?>)" class="btn">
+                <i class="icon-refresh"></i>
+                <?php echo $this->translate('Restore Ticket'); ?>
+            </a>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div style="clear: both;"></div>
+    <br />
+    <p style="color: #000;"><strong>Title: <?php echo $ticket->getTitle(); ?></strong></p>    
+    <p style="color: #000;">
+        <strong>
+        <?php 
+        $resolvedWord = '';
+        $notResolvedWord = '';
+        $member = $ticket->getUser();
+        if($ticket->isResolved()){$resolvedWord = "{$ticket->getResolvedWord()} & ";}
+        else{$notResolvedWord = " & {$ticket->getResolvedWord()}";}
+        echo "Ticket Raised By: <a href='{$this->url(array('action' => 'details', 'id' => $member->getIdentity()), 'admin_users', true)}'>{$member->getTitle()}</a><br />";
+        if($ticket->isScheduled()){
+            $schedule = $ticket->getSchedule();
+            $technician = $schedule->getTechnician();
+            if(isset($schedule->schedule_id) && isset($technician->user_id)){
+                if(in_array($ticket->status, array(1, 4))){
+                    echo "Status: {$resolvedWord}{$ticket->getScheduledWord()}{$notResolvedWord}<br />"; 
+                }else{
+                    echo "Status: {$resolvedWord}{$ticket->getStatusWord()}{$notResolvedWord}<br />";
+                }
+                echo "Allocated Technician: <a href='{$this->url(array('action' => 'details', 'id' => $technician->getIdentity()), 'admin_users', true)}'>{$technician->getTitle()}</a><br />";
+                echo "Scheduled Date: {$schedule->scheduled_date}<br />";
+                echo "Starting Time: {$schedule->from_time}<br />";
+                echo "Finishing Time: {$schedule->to_time}<br />";
+            }
+        }else{
+            echo "Status: {$resolvedWord}{$ticket->getStatusWord()}{$notResolvedWord}";
+        }
+        ?>
+        </strong>
+    </p>
+    <p style="color: #000;"><strong>Priority:</strong> <?php echo $ticket->getPriorityWord(); ?></p>
+    <p style="color: #000;"><strong>Description:</strong> <?php echo $ticket->getDescription(); ?></p>
+</div>
+
+<?php if(!$ticket->user_delete): ?>
+<script type="text/javascript">
+function deleteThis($itemId){
+    if(confirm('<?php echo $this->translate('Are you sure to delete the ticket?'); ?>')){
+        if($itemId != ''){
+            location.href = "<?php echo $this->url(array('action' => 'delete'), 'admin_tickets', true); ?>/id/"+$itemId+"/pg/0";
+        }
+    }
+}
+function closeThis($itemId){
+    if(confirm('<?php echo $this->translate('Are you sure to close the ticket?'); ?>')){
+        if($itemId != ''){
+            location.href = "<?php echo $this->url(array('action' => 'close'), 'admin_tickets', true); ?>/id/"+$itemId+"/pg/0";
+        }
+    }
+}
+function reopenThis($itemId){
+    if(confirm('<?php echo $this->translate('Are you sure to reopen the ticket?'); ?>')){
+        if($itemId != ''){
+            location.href = "<?php echo $this->url(array('action' => 'reopen'), 'admin_tickets', true); ?>/id/"+$itemId+"/pg/0";
+        }
+    }
+}
+function setTicketResolved($itemId){
+    if(confirm('<?php echo $this->translate('Are you sure to set the ticket as resolved?'); ?>')){
+        if($itemId != ''){
+            location.href = "<?php echo $this->url(array('action' => 'resolved'), 'admin_tickets', true); ?>/id/"+$itemId+"/pg/0";
+        }
+    }
+}
+<?php if($ticket->isScheduled()): ?>
+function closeThisSchedule($itemId){
+    if(confirm('<?php echo $this->translate('Are you sure to close the schedule?'); ?>')){
+        if($itemId != ''){
+            location.href = "<?php echo $this->url(array('action' => 'close'), 'admin_tasks', true); ?>/id/"+$itemId+"/pg/0";
+        }
+    }
+}
+function deleteThisSchedule($itemId){
+    if(confirm('<?php echo $this->translate('Are you sure to delete the schedule?'); ?>')){
+        if($itemId != ''){
+            location.href = "<?php echo $this->url(array('action' => 'delete'), 'admin_tasks', true); ?>/id/"+$itemId+"/pg/0";
+        }
+    }
+}
+<?php endif; ?>
+</script>
+<?php else: ?>
+<script type="text/javascript">
+function restoreThis($itemId){
+    if(confirm('<?php echo $this->translate('Are you sure to restore the ticket?'); ?>')){
+        if($itemId != ''){
+            location.href = "<?php echo $this->url(array('action' => 'restore'), 'admin_tickets', true); ?>/id/"+$itemId+"/pg/0";
+        }
+    }
+}
+</script>
+<?php endif; ?>

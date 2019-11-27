@@ -1,0 +1,119 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+
+$member = $this->member;
+$menu = array('menu' => 'core_main_user');
+$notShow = array('core_main_profile', 'core_main_settings', 'core_main_user_task_list');
+echo $this->topMenuWidget(array('headtitle' => 'User Panel', 'menu' => $menu, 'notshow' => $notShow));
+?>
+
+<div style="clear: both;"></div>
+
+<div class="hero-unit" style="width: 96%; padding: 10px 20px; margin-bottom: 0px;">
+    <h4>
+        <i class="icon-home" style="vertical-align:middle; margin-top: -2px;"></i>
+        <?php echo $this->translate('User Panel [Member Profile]'); ?>
+    </h4>
+    <div style="clear: both;"></div>
+    <?php if(false): ?>
+    <div class="btn-toolbar custresclass" style="float: right;">
+        <div class="btn-group">
+            <?php if($member->isActive()): ?>
+            <a href="javascript:void(0)" onclick="javascript:inactivateThis(<?php echo $member->getIdentity(); ?>)" class="btn">
+                <i class="icon-off"></i>
+                <?php echo $this->translate('Inactivate This Member'); ?>
+            </a>
+                <?php if($member->isTechnician()): ?>
+                <a href="javascript:void(0)" onclick="javascript:deleteTechnician(<?php echo $member->getIdentity(); ?>)" class="btn">
+                    <i class="icon-remove"></i>
+                    <?php echo $this->translate('Delete This Technician'); ?>
+                </a>
+                <?php else: ?>
+                <a href="javascript:void(0)" onclick="javascript:makeTechnician(<?php echo $member->getIdentity(); ?>)" class="btn">
+                    <i class="icon-briefcase"></i>
+                    <?php echo $this->translate('Make This Technician'); ?>
+                </a>
+                <?php endif; ?>
+            <?php else: ?>
+            <a href="javascript:void(0)" onclick="javascript:activateThis(<?php echo $member->getIdentity(); ?>)" class="btn">
+                <i class="icon-check"></i>
+                <?php echo $this->translate('Activate This Member'); ?>
+            </a>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div style="clear: both;"></div>
+    <?php endif; ?>
+    <br />
+    <p style="color: #000;"><strong>Full Name: <?php echo $member->getTitle(); ?></strong></p>    
+    <p style="color: #000;">
+        <strong>Member Status: 
+            <?php 
+                echo $member->isActiveWord(); 
+                if($member->isTechnician()){
+                    echo ' and <span class="status green">Technician</span>';
+                }
+            ?>
+        </strong>
+    </p>    
+    <p style="color: #000;"><strong>Address: <?php echo $member->getAddress(); ?></strong></p>    
+    <p style="color: #000;"><strong>Email: </strong><a href="mailto:<?php echo $member->getEmail(); ?>"><?php echo $member->getEmail(); ?></a></p>
+    <p style="color: #000;"><strong>Mobile Number: </strong><?php echo $member->mobile_no; ?></p>
+    <p style="color: #000;"><strong>Phone Number: </strong><?php echo $member->phone_no; ?></p>
+    <p style="color: #000;"><strong>IP Address: </strong><?php echo $member->ipaddress; ?></p>
+    <p style="color: #000;"><strong>Latitude: </strong><?php echo $member->latitude; ?></p>
+    <p style="color: #000;"><strong>Longitude: </strong><?php echo $member->longitude; ?></p>
+</div>
+
+<?php if(false): ?>
+<?php if($member->isActive()): ?>
+<script type="text/javascript">
+function inactivateThis($itemId){
+    if(confirm('<?php echo $this->translate('Are you sure to inactivate the member?'); ?>')){
+        if($itemId != ''){
+            location.href = "<?php echo $this->url(array('action' => 'inactivate'), 'admin_users', true); ?>/id/"+$itemId+"/pg/0";
+        }
+    }
+}
+<?php if($member->isTechnician()): ?>
+function deleteTechnician($itemId){
+    if(confirm('<?php echo $this->translate('Are you sure to delete the technician?'); ?>')){
+        if($itemId != ''){
+            location.href = "<?php echo $this->url(array('action' => 'delete-technician'), 'admin_users', true); ?>/id/"+$itemId+"/pg/0";
+        }
+    }
+}
+<?php else: ?>
+function makeTechnician($itemId){
+    if(confirm('<?php echo $this->translate('Are you sure to make the technician?'); ?>')){
+        if($itemId != ''){
+            location.href = "<?php echo $this->url(array('action' => 'make-technician'), 'admin_users', true); ?>/id/"+$itemId+"/pg/0";
+        }
+    }
+}
+<?php endif; ?>
+</script>
+<?php else: ?>
+<script type="text/javascript">
+function activateThis($itemId){
+    if(confirm('<?php echo $this->translate('Are you sure to activate the member?'); ?>')){
+        if($itemId != ''){
+            location.href = "<?php echo $this->url(array('action' => 'activate'), 'admin_users', true); ?>/id/"+$itemId+"/pg/0";
+        }
+    }
+}
+</script>
+<?php endif; ?>
+<?php endif; ?>

@@ -1,0 +1,200 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+?>
+
+<?php echo $this->doctype()->__toString()."\n"; ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <base href="<?php echo rtrim((constant('APPLICATION_SSL') ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $this->baseUrl(), '/') . '/' ?>" />
+        <?php
+        // get locale
+        $locale = new Zend_Locale();
+        $pageTitleCustom = $this->pageName ? $this->pageName : '';
+
+        // page title
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+        $this->headTitle()->setSeparator(' - ');
+
+        $pageTitleKey = 'pagetitle-' . $request->getModuleName() . '-' . $request->getActionName()
+                . '-' . $request->getControllerName();
+
+        $pageTitle = $this->translate($pageTitleKey);
+        if ($pageTitle && $pageTitle != $pageTitleKey) {
+            $this->headTitle($pageTitle, Zend_View_Helper_Placeholder_Container_Abstract::PREPEND);
+        }
+        $this->headTitle($this->translate($pageTitleCustom), Zend_View_Helper_Placeholder_Container_Abstract::PREPEND);
+
+        // content meta
+        $this->headMeta()
+                ->appendHttpEquiv('Content-Type', 'text/html; charset=UTF-8')
+                ->appendHttpEquiv('Content-Language', $locale->toString())
+                ->appendName('viewport', 'width=device-width, initial-scale=1.0');
+
+//        // meta key & description
+//        $description = $keywords = '';
+//        $this->headMeta()->appendName('keywords', trim($keywords));
+//        $this->headMeta()->appendName('description', trim($description));
+
+        // get page body identity
+        $identity = $request->getModuleName() . '-' .
+                $request->getControllerName() . '-' .
+                $request->getActionName();
+
+        // output title and meta
+        echo $this->headTitle()->toString()."\n";
+        echo $this->headMeta()->toString()."\n";
+
+        // add favicon
+        $this->headLink(
+            array(
+                'rel' => 'shortcut icon',
+                'href' => "{$this->baseUrl()}/public/ico/favicon.png",
+                'type' => 'image/png'
+            ),
+            'PREPEND'
+        );
+        $this->headLink(
+            array(
+                'rel' => 'apple-touch-icon-precomposed',
+                'href' => "{$this->baseUrl()}/public/ico/apple-touch-icon-57-precomposed.png",
+                'type' => 'image/png'
+            ),
+            'PREPEND'
+        );
+        $this->headLink(
+            array(
+                'rel' => 'apple-touch-icon-precomposed',
+                'href' => "{$this->baseUrl()}/public/ico/apple-touch-icon-72-precomposed.png",
+                'sizes' => '72x72',
+                'type' => 'image/png'
+            ),
+            'PREPEND'
+        );
+        $this->headLink(
+            array(
+                'rel' => 'apple-touch-icon-precomposed',
+                'href' => "{$this->baseUrl()}/public/ico/apple-touch-icon-114-precomposed.png",
+                'sizes' => '114x114',
+                'type' => 'image/png'
+            ),
+            'PREPEND'
+        );
+        $this->headLink(
+            array(
+                'rel' => 'apple-touch-icon-precomposed',
+                'href' => "{$this->baseUrl()}/public/ico/apple-touch-icon-144-precomposed.png",
+                'sizes' => '144x144',
+                'type' => 'image/png'
+            ),
+            'PREPEND'
+        );
+
+        // add theme css
+        $this->headLink()
+                ->prependStylesheet("{$this->baseUrl()}/public/themes/default/css/style.css")
+                ->prependStylesheet("{$this->baseUrl()}/public/themes/default/css/bootstrap.min.css")
+                ->prependStylesheet("{$this->baseUrl()}/public/themes/default/css/jquery-ui.css");
+
+        // output link and style
+        echo $this->headLink()->toString()."\n";
+        echo $this->headStyle()->toString()."\n";
+
+        // output main js
+        $this->headScript()
+                ->prependFile("{$this->baseUrl()}/public/themes/default/js/bootstrap.min.js")
+                ->prependFile("{$this->baseUrl()}/public/themes/default/js/jquery-ui.js")
+                ->prependFile("{$this->baseUrl()}/public/themes/default/js/jquery.canvasjs.min.js")
+                ->prependFile("{$this->baseUrl()}/public/themes/default/js/jquery.min.js");
+                
+        // output head script
+        //$this->headScript()->prependScript($this->headTranslate()->toString());
+        echo $this->headScript()->toString()."\n";
+        
+        // specify layout type (one-column, two-column, three-column)
+        $contentClass = "";
+        if($this->layoutType === 1){
+            $contentClass = "span12";
+        }elseif($this->layoutType === 2){
+            $contentClass = "span9";
+        }elseif(in_array($this->layoutType, array(3, 4))){
+            $contentClass = "span6";
+        }
+        
+        // menus dont show
+        $paramsMain = array();
+        //$notShowMain = array();
+        if(isset($this->notShowMain) && count($this->notShowMain)){
+            $paramsMain['notshow'] = $this->notShowMain;
+        }
+        ?>
+
+        <style type="text/css">
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+            .sidebar-nav {
+                padding: 9px 0;
+            }
+
+            @media (max-width: 980px) {
+                /* Enable use of floated navbar text */
+                .navbar-text.pull-right {
+                    float: none;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                }
+            }
+        </style>
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+          <script src="<?php echo "{$this->baseUrl()}/public/themes/default/js/html5shiv.js"; ?>"></script>
+        <![endif]-->
+
+    </head>
+
+    <body id="global_page_<?php echo $identity; ?>">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <?php echo $this->siteHeaderWidget(); ?>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <?php if(in_array($this->layoutType, array(2, 3, 4))): ?>
+                <div class="span3">
+                    <?php if($this->layoutType !== 4){echo $this->mainMenuWidget($paramsMain);} ?>
+                </div>
+                <?php endif; ?>
+                
+                <div class="<?php echo $contentClass; ?>">
+                    <?php if($this->layoutType){ echo $this->layout()->content; } ?>
+                </div>
+                
+                <?php if(in_array($this->layoutType, array(3, 4))): ?>
+                <div class="span3">
+                    <?php if($this->layoutType !== 4){echo $this->mainMenuWidget($paramsMain);} ?>
+                </div>
+                <?php endif; ?>
+            </div>
+
+            <hr>
+
+            <footer>
+                <?php echo $this->siteFooterWidget(); ?>
+            </footer>
+        </div>
+    </body>
+</html>

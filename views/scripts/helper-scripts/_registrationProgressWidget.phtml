@@ -1,0 +1,28 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+
+$step = $this->step;
+?>
+
+<ul class="progress-steps">
+    <li style="padding-left: 0px;"><a href="javascript:void(0)"<?php if($step === 'captcha'){echo " class='processing'";} ?>><?php echo $this->translate('Are you human?'); ?></a></li>
+    <li>&raquo;</li>
+    <li><a href="javascript:void(0)"<?php if($step === 'email'){echo " class='processing'";} ?>><?php echo $this->translate('Account Details'); ?></a></li>
+    <li>&raquo;</li>
+    <li><a href="javascript:void(0)"<?php if($step === 'contact'){echo " class='processing'";} ?>><?php echo $this->translate('Contact Details'); ?></a></li>
+    <li>&raquo;</li>
+    <li><a href="javascript:void(0)"<?php if($step === 'payment'){echo " class='processing'";} ?>><?php echo $this->translate('Payment Information'); ?></a></li>
+    <div style="clear: both;"></div>
+</ul>

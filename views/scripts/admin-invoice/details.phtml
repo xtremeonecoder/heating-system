@@ -1,0 +1,83 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+
+$invoice = $this->invoice;
+$ticket = $invoice->getTicket();
+$viewer = $this->viewer();
+$menu = array('menu' => "core_main_{$viewer->getUserType()}_invoice_top");
+echo $this->topMenuWidget(array('headtitle' => 'Admin Panel', 'menu' => $menu));
+?>
+
+<div style="clear: both;"></div>
+
+<div class="hero-unit" style="width: 96%; padding: 10px 20px; margin-bottom: 0px;">
+    <h4>
+        <i class="icon-home" style="vertical-align:middle; margin-top: -2px;"></i>
+        <?php echo $this->translate('Admin Panel [Payment Invoice Details]'); ?>
+    </h4>
+    <div style="clear: both;"></div>
+    <div class="btn-toolbar custresclass" style="float: right;">
+        <div class="btn-group">
+            <?php if($invoice->isEnabled()): ?>
+            <?php if($invoice->canBeEdit()): ?>
+            <a href="<?php echo $this->url(array('action' => 'edit', 'id' => $invoice->getIdentity()), 'admin_invoices', true); ?>" class="btn">
+                <i class="icon-edit"></i>
+                <?php echo $this->translate("Edit & Resend"); ?>
+            </a>
+            <?php endif; ?>
+            <?php if($invoice->canBeDelete()): ?>
+            <a href="javascript:void(0)" onclick="javascript:deleteThis(<?php echo $invoice->getIdentity(); ?>)" class="btn">
+                <i class="icon-remove"></i>
+                <?php echo $this->translate('Delete Invoice'); ?>
+            </a>
+            <?php endif; ?>
+            <?php else: ?>
+            <a href="javascript:void(0)" onclick="javascript:restoreThis(<?php echo $invoice->getIdentity(); ?>)" class="btn">
+                <i class="icon-refresh"></i>
+                <?php echo $this->translate('Restore Invoice'); ?>
+            </a>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div style="clear: both;"></div>
+    <br />
+    <p style="color: #000;"><strong>Invoice Title:</strong> <?php echo $invoice->getTitle(); ?></p>
+    <p style="color: #000;"><strong>Amount Payable:</strong> <?php echo $invoice->getAmount(); ?></p>    
+    <p style="color: #000;"><strong>Invoice Status:</strong> <?php echo $invoice->getStatusWord(); ?></p>
+    <p style="color: #000;"><strong>Invoice Description:</strong> <?php echo $invoice->getDescription(); ?></p>
+    <br />
+    <p style="color: #000;">
+        <strong>Ticket Title:</strong>
+        <a href="<?php echo $this->url(array('action' => 'details', 'id' => $ticket->getIdentity()), 'admin_tickets', true); ?>"><?php echo $ticket->getTitle(); ?></a>
+    </p>
+    <p style="color: #000;"><strong>Ticket Description:</strong> <?php echo $ticket->getDescription(); ?></p>
+</div>
+
+<script type="text/javascript">
+function deleteThis($itemId){
+    if(confirm('<?php echo $this->translate('Are you sure to delete the invoice?'); ?>')){
+        if($itemId != ''){
+            location.href = "<?php echo $this->url(array('action' => 'delete'), 'admin_invoices', true); ?>/id/"+$itemId+"/pg/0";
+        }
+    }
+}
+function restoreThis($itemId){
+    if(confirm('<?php echo $this->translate('Are you sure to restore the invoice?'); ?>')){
+        if($itemId != ''){
+            location.href = "<?php echo $this->url(array('action' => 'restore'), 'admin_invoices', true); ?>/id/"+$itemId+"/pg/0";
+        }
+    }
+}
+</script>

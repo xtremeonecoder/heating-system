@@ -1,0 +1,93 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+?>
+
+<?php
+$query = false;
+if(@count($this->query)>0){
+    $query = http_build_query($this->query, '&');
+    $query = "?{$query}";
+}
+?>
+<div class="pagination">
+    <div style="float:left; width:28%"></div>
+    <div style="width:100%;">
+
+        <!-- First page link -->
+        <?php
+        if (isset($this->previous)):
+            $firstPageUrl = $this->url(array('page' => $this->first));
+            if((is_array($query) || is_object($query)) && count($query)>0){
+                $firstPageUrl = "{$firstPageUrl}{$query}";
+            }
+            ?>
+            <a href="<?php echo $firstPageUrl; ?>"><?php echo $this->translate('Start'); ?></a>
+        <?php else: ?>
+            <span class="disabled"><?php echo $this->translate('Start'); ?></span>
+        <?php endif; ?>
+
+        <!-- Previous page link -->
+        <?php if (isset($this->previous)):
+            $previousPageUrl = $this->url(array('page' => $this->previous));
+            if((is_array($query) || is_object($query)) && count($query)>0){
+                $previousPageUrl = "{$previousPageUrl}{$query}";
+            }
+            ?>
+            <a href="<?php echo $previousPageUrl; ?>"><?php echo $this->translate('&lt; Previous'); ?></a>
+        <?php else: ?>
+            <span class="disabled"><?php echo $this->translate('&lt; Previous'); ?></span>
+        <?php endif; ?>
+
+        <!-- Numbered page links -->
+        <?php foreach ($this->pagesInRange as $page): ?>
+            <?php if ($page != $this->current):
+                $otherPageUrl = $this->url(array('page' => $page));
+                if((is_array($query) || is_object($query)) && count($query)>0){
+                    $otherPageUrl = "{$otherPageUrl}{$query}";
+                }
+                ?>
+                <a href="<?php echo $otherPageUrl; ?>"><?php echo $page; ?></a>
+            <?php else: ?>
+                <span class="disabled"><?php echo $page; ?></span>
+            <?php endif; ?>
+        <?php endforeach; ?>
+
+        <!-- Next page link -->
+        <?php if (isset($this->next)):
+            $nextPageUrl = $this->url(array('page' => $this->next));
+            if((is_array($query) || is_object($query)) && count($query)>0){
+                $nextPageUrl = "{$nextPageUrl}{$query}";
+            }
+            ?>
+             <a href="<?php echo $nextPageUrl; ?>"><?php echo $this->translate('Next &gt;'); ?></a>
+        <?php else: ?>
+             <span class="disabled"><?php echo $this->translate('Next &gt;'); ?></span>
+        <?php endif; ?>
+
+        <!-- Last page link -->
+        <?php if (isset($this->next)):
+            $lastPageUrl = $this->url(array('page' => $this->last));
+            if((is_array($query) || is_object($query)) && count($query)>0){
+                $lastPageUrl = "{$lastPageUrl}{$query}";
+            }
+            ?>
+            <a href="<?php echo $lastPageUrl; ?>"><?php echo $this->translate('End'); ?></a>
+        <?php else: ?>
+            <span class="disabled"><?php echo $this->translate('End'); ?></span>
+        <?php endif; ?>
+
+        <?php echo $this->translate('&nbsp; Page %s of %s', $this->current, $this->last); ?>
+    </div>
+</div>

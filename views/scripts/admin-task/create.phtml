@@ -1,0 +1,101 @@
+<?php
+/**
+ * Heating Support System
+ *
+ * @category   Application_Core
+ * @package    heating-system
+ * @author     Suman Barua
+ * @developer  Suman Barua <sumanbarua576@gmail.com>
+ */
+
+/**
+ * @category   Application_Core
+ * @package    heating-system
+ */
+
+// tinymce editor
+$this->headScript()
+          ->appendFile("{$this->baseUrl()}/public/externals/tinymce/tinymce.min.js");
+
+// datepicker css
+$this->headLink()
+          //->appendStylesheet("{$this->baseUrl()}/public/externals/datetimepicker/css/bootstrap-combined.min.css")
+          ->appendStylesheet("{$this->baseUrl()}/public/externals/datetimepicker/css/bootstrap-datetimepicker.min.css", 'screen', true, array('charset'=>"utf-8"));
+
+// datepicker js
+$this->headScript()
+          //->appendFile("{$this->baseUrl()}/public/externals/datetimepicker/js/jquery.min.js")
+          //->appendFile("{$this->baseUrl()}/public/externals/datetimepicker/js/bootstrap.min.js")
+          ->appendFile("{$this->baseUrl()}/public/externals/datetimepicker/js/bootstrap-datetimepicker.min.js");          
+?>
+
+<script type="text/javascript">
+tinymce.init({
+    selector: "textarea.span5",
+    theme: "modern",
+    //width: 300,
+    height: 300,
+    plugins: [
+         "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+         "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+         "save table contextmenu directionality emoticons template paste textcolor"
+   ],
+   content_css: "css/content.css",
+   toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons", 
+   style_formats: [
+        {title: 'Bold text', inline: 'b'},
+        {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+        {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+        {title: 'Example 1', inline: 'span', classes: 'example1'},
+        {title: 'Example 2', inline: 'span', classes: 'example2'},
+        {title: 'Table styles'},
+        {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+    ]
+ });
+</script>
+
+<?php 
+    $viewer = $this->viewer();
+    $menu = array('menu' => "core_main_{$viewer->getUserType()}_task_top");
+    echo $this->topMenuWidget(array('headtitle' => 'Admin Panel', 'menu' => $menu));
+?>
+
+<div>
+    <div id="formholder">
+        <h4>
+            <i class="icon-home" style="vertical-align:middle; margin-top: -2px;"></i>
+            <?php echo $this->translate('Admin Panel [Create Task Schedule]'); ?>
+        </h4>
+        <?php echo $this->form->render($this); ?>
+        <div style="clear: both;"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('#submit').prepend("<i class='icon-ok-sign icon-white'></i> ");
+$('#scheduled_date-element').addClass('input-append').css('display', 'block');
+$('#from_time-element').addClass('input-append');
+$('#to_time-element').addClass('input-append');
+
+var $iconHtml = '<span class="add-on">' +
+                '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>' +
+                '</span>';
+
+// show datepicker
+$('#scheduled_date-element').append($iconHtml);
+var $datePickerIds = '#scheduled_date-element';
+$($datePickerIds).datetimepicker({
+    pickTime: false,
+    format: 'yyyy-MM-dd'
+});
+
+// show timepicker
+var $timePickerIds = '#from_time-element, #to_time-element';
+$('#from_time-element').append($iconHtml);
+$('#to_time-element').append($iconHtml);
+$($timePickerIds).datetimepicker({
+    pickDate: false,
+    format: 'hh:mm:ss',
+    pick12HourFormat: true
+});
+</script>
